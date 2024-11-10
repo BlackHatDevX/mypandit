@@ -2,27 +2,29 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Link from "next/link";
 
-function addService() {
+function AddService() {
+  const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
-      router.replace("/"); // Redirect to home if authToken is missing
+      router.replace("/");
       return;
     }
-  });
-  const router = useRouter();
+  }, []);
+
   return (
     <div>
       <div className="main">
-        <a
+        <div
           onClick={() => {
             router.back();
           }}
           className="lg:hidden top-5 left-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
         >
           <img src="/back-arrow.png" className="w-10" alt="back" />
-        </a>
+        </div>
         <div className="flex lg:flex-row flex-col">
           {/* Navbar */}
           <div className="navbar lg:block hidden">
@@ -32,12 +34,12 @@ function addService() {
             >
               <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
                 {/* Logo */}
-                <a
+                <Link
                   href="/"
                   className="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/logo.png" className="w-14" alt="Logo" />
-                </a>
+                </Link>
                 <div className="hidden lg:block">
                   <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
                     <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600">
@@ -53,20 +55,20 @@ function addService() {
                     </li>
                   </ul>
                 </div>
-                <a
+                <div
                   onClick={() => {
                     router.back();
                   }}
                   className=" mt-40 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/back-arrow.png" className="w-14" alt="back" />
-                </a>
+                </div>
               </div>
             </nav>
           </div>
 
           <div className="left-panel flex w-full items-center">
-            <a
+            <div
               onClick={() => {
                 localStorage.clear();
                 router.replace("/");
@@ -74,7 +76,7 @@ function addService() {
               className="lg:hidden top-5 right-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
               <img src="/logout.png" className="w-10 invert h-8" alt="back" />
-            </a>
+            </div>
             {/* Background Image */}
             <div className="lg:-z-10 lg:block hidden">
               <img
@@ -106,4 +108,4 @@ function addService() {
   );
 }
 
-export default addService;
+export default AddService;

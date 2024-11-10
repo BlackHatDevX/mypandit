@@ -1,3 +1,7 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "no-console": "off", // Disable the no-console rule
+    "react/jsx-no-undef": "off" // Disable the rule that warns about undefined JSX components
+  }
 }

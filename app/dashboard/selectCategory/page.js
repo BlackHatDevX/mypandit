@@ -2,8 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
-function addService() {
+function AddService() {
   const [authToken, setAuthToken] = useState("");
   const [images, setImages] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -12,19 +13,16 @@ function addService() {
   const router = useRouter();
 
   useEffect(() => {
-    try {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        router.replace("/"); // Redirect to home if authToken is missing
-        return;
-      }
-      setAuthToken(localStorage.getItem("authToken") || "");
-    } catch (error) {
-      console.error("Error accessing localStorage:", error);
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      router.replace("/"); // Redirect to home if authToken is missing
+      return;
     }
-  }, []);
+    setAuthToken(token);
+  }, [router]);
 
   useEffect(() => {
+    if (!authToken) return;
     const fetchCategories = async () => {
       try {
         const response = await fetch(
@@ -47,11 +45,12 @@ function addService() {
       }
     };
 
-    if (authToken) fetchCategories();
+    fetchCategories();
   }, [authToken]);
 
   useEffect(() => {
     const fetchImages = async () => {
+      if (categories.length === 0) return;
       try {
         const imagesBox = await Promise.all(
           categories.map(async (category) => {
@@ -70,12 +69,12 @@ function addService() {
         setImages(imagesBox);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching categories images", error);
+        console.error("Error fetching category images:", error);
         setLoading(false);
       }
     };
 
-    if (categories.length) fetchImages();
+    fetchImages();
   }, [categories]);
 
   const handleCategoryClick = (categoryId) => {
@@ -103,12 +102,12 @@ function addService() {
             >
               <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
                 {/* Logo */}
-                <a
+                <Link
                   href="/"
                   className="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/logo.png" className="w-14" alt="Logo" />
-                </a>
+                </Link>
                 <div className="hidden lg:block">
                   <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
                     <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600">
@@ -124,28 +123,28 @@ function addService() {
                     </li>
                   </ul>
                 </div>
-                <a
+                <div
                   onClick={() => {
                     router.back();
                   }}
-                  className=" mt-40 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
+                  className="mt-40 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/back-arrow.png" className="w-14" alt="back" />
-                </a>
+                </div>
               </div>
             </nav>
           </div>
 
           <div className="left-panel flex w-full items-center">
-            <a
+            <div
               onClick={() => {
                 router.back();
               }}
               className="lg:hidden top-5 left-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
               <img src="/back-arrow.png" className="w-10" alt="back" />
-            </a>
-            <a
+            </div>
+            <div
               onClick={() => {
                 localStorage.clear();
                 router.replace("/");
@@ -153,7 +152,7 @@ function addService() {
               className="lg:hidden top-5 right-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
               <img src="/logout.png" className="w-10 invert h-8" alt="back" />
-            </a>
+            </div>
             {/* Background Image */}
             <div className="lg:-z-10 lg:block hidden">
               <img
@@ -236,4 +235,4 @@ function addService() {
   );
 }
 
-export default addService;
+export default AddService;

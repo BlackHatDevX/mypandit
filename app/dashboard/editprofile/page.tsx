@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
@@ -93,14 +94,14 @@ function ProfilePage() {
   return (
     <div>
       <div className="main">
-        <a
+        <div
           onClick={() => {
             router.back();
           }}
           className="lg:hidden top-5 left-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
         >
           <img src="/back-arrow.png" className="w-10" alt="back" />
-        </a>
+        </div>
         <div className="flex lg:flex-row flex-col">
           {/* Navbar */}
           <div className="navbar lg:block hidden">
@@ -110,12 +111,12 @@ function ProfilePage() {
             >
               <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
                 {/* Logo */}
-                <a
+                <Link
                   href="/"
                   className="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/logo.png" className="w-14" alt="Logo" />
-                </a>
+                </Link>
 
                 {/* Menu Options */}
                 <div className="hidden lg:block">
@@ -132,20 +133,20 @@ function ProfilePage() {
                     </li>
                   </ul>
                 </div>
-                <a
+                <div
                   onClick={() => {
                     router.back();
                   }}
                   className=" mt-40 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/back-arrow.png" className="w-14" alt="back" />
-                </a>
+                </div>
               </div>
             </nav>
           </div>
 
           <div className="left-panel flex w-full items-center">
-            <a
+            <div
               onClick={() => {
                 localStorage.clear();
                 router.replace("/");
@@ -153,7 +154,7 @@ function ProfilePage() {
               className="lg:hidden top-5 right-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
               <img src="/logout.png" className="w-10 invert h-8" alt="back" />
-            </a>
+            </div>
             {/* Background Image */}
             <div className="lg:-z-10 lg:block hidden">
               <img

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -25,12 +26,12 @@ function ProfilePage() {
             >
               <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
                 {/* Logo */}
-                <a
+                <Link
                   href="/"
                   className="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/logo.png" className="w-14" alt="Logo" />
-                </a>
+                </Link>
 
                 <div className="hidden lg:block">
                   <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -52,15 +53,15 @@ function ProfilePage() {
           {/* back button  */}
           <div className="left-panel flex w-full items-center}">
             ,
-            <a
+            <div
               onClick={() => {
                 router.back();
               }}
               className="lg:hidden top-5 left-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
               <img src="/back-arrow.png" className="w-10" alt="back" />
-            </a>
-            <a
+            </div>
+            <div
               onClick={() => {
                 localStorage.clear();
                 router.replace("/");
@@ -68,7 +69,7 @@ function ProfilePage() {
               className="lg:hidden top-5 right-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
               <img src="/logout.png" className="w-10 invert h-8" alt="back" />
-            </a>
+            </div>
             {/* Background Image */}
             <div className="lg:-z-10 lg:block hidden">
               <img
@@ -98,7 +99,7 @@ function ProfilePage() {
             <div className="login z-0 flex items-center mx-auto flex-col h-screen justify-center">
               <div className="heading w-[40vw] mb-5">
                 <p className="font-bold text-4xl font-serif text-gray-800 text-center">
-                  Pandit's Portal
+                  Pandits&apos; Portal
                 </p>
               </div>
               <div className="browseProfileImg">

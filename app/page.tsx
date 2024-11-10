@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -12,7 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      let token = localStorage.getItem("authToken") || "";
+      const token = localStorage.getItem("authToken") || "";
       if (token.length != 0) {
         router.push("/dashboard");
       }
@@ -46,6 +47,7 @@ export default function Home() {
       }
     } catch (error) {
       setErrorMessage("ERROR API: OTP NOT SENT");
+      console.log(error);
     }
   };
 
@@ -68,7 +70,7 @@ export default function Home() {
       const data = await response.json();
 
       if (data.statusCode === 200) {
-        var authToken = "Bearer " + data.results.access;
+        const authToken = "Bearer " + data.results.access;
         localStorage.setItem("authToken", authToken);
         localStorage.setItem("user_id", data.results.data.user_id);
         localStorage.setItem("contact_number", contactNumber);
@@ -80,6 +82,7 @@ export default function Home() {
       }
     } catch (error) {
       setErrorMessage("ERROR API: OTP Verification failed");
+      console.log(error);
     }
   };
 
@@ -93,12 +96,12 @@ export default function Home() {
             className="lg:absolute block w-[90%] bg-opacity-90 top-3 right-[5%] left-[5%] shadow backdrop-blur-lg backdrop-saturate-150 z-[9999]"
           >
             <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
-              <a
+              <Link
                 href="/"
                 className="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
               >
                 <img src="/logo.png" className="w-14" alt="Logo" />
-              </a>
+              </Link>
               <div className="hidden lg:block"></div>
             </div>
           </nav>

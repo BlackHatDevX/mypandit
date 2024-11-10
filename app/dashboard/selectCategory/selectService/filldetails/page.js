@@ -2,15 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 function DetailsPage() {
   const [dakshina, setDakshina] = useState("");
   const [duration, setDuration] = useState("");
   const [authToken, setAuthToken] = useState("");
   const [message, setMessage] = useState("");
-  const [serviceDetails, setServiceDetails] = useState({});
-  const [simage, setSimage] = useState("");
-  const [categoryId, setCategoryId] = useState();
+  const [serviceDetails, setServiceDetails] = useState(null); // Default as null to prevent undefined errors
+  const [simage, setSimage] = useState(null); // Default to null for image
+  const [categoryId, setCategoryId] = useState(null); // Set to null by default
   const router = useRouter();
 
   useEffect(() => {
@@ -21,9 +22,9 @@ function DetailsPage() {
         return;
       }
 
-      setAuthToken(localStorage.getItem("authToken") || "");
-      setSimage(localStorage.getItem("service_img") || "");
-      setCategoryId(localStorage.getItem("category_id", ""));
+      setAuthToken(token);
+      setSimage(localStorage.getItem("service_img"));
+      setCategoryId(localStorage.getItem("category_id"));
     } catch (error) {
       console.log("Error accessing localStorage:", error);
     }
@@ -32,6 +33,8 @@ function DetailsPage() {
   useEffect(() => {
     const fetchServiceDetails = async () => {
       const serviceId = localStorage.getItem("service_id");
+      if (!serviceId) return; // Exit early if no serviceId
+
       try {
         const response = await fetch(
           `https://test.backend.urbanoinfotech.com/api/v1/service/${serviceId}`,
@@ -53,10 +56,17 @@ function DetailsPage() {
       }
     };
 
-    if (authToken) fetchServiceDetails();
+    if (authToken) {
+      fetchServiceDetails();
+    }
   }, [authToken]);
 
   const handleSave = async () => {
+    if (!dakshina || !duration || !categoryId) {
+      setMessage("Please fill in all fields.");
+      return;
+    }
+
     try {
       const response = await fetch(
         `https://test.backend.urbanoinfotech.com/api/v1/pandit/service`,
@@ -76,38 +86,33 @@ function DetailsPage() {
         }
       );
 
-      console.log({
-        service: serviceDetails.id,
-        dakshina: parseInt(dakshina),
-        duration: duration.toString(),
-        category: categoryId,
-      });
-
       const data = await response.json();
 
-      if (data.statusCode == 201) {
+      if (data.statusCode === 201) {
         setMessage(data.message);
         router.push("/dashboard/saveSuccess"); // Redirect to /success after save
       } else {
         setMessage(`Error: ${data.message}`);
       }
     } catch (error) {
-      setMessage("An error occurred while updating the profile.");
+      setMessage("An error occurred while saving the service.");
       console.log(error);
     }
   };
 
+  if (!serviceDetails) {
+    return <p>Loading service details...</p>; // Show a loading message until service details are fetched
+  }
+
   return (
     <div>
       <div className="main">
-        <a
-          onClick={() => {
-            router.back();
-          }}
+        <Link
+          onClick={() => router.back()}
           className="lg:hidden top-5 left-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
         >
           <img src="/back-arrow.png" className="w-10" alt="back" />
-        </a>
+        </Link>
         <div className="flex lg:flex-row flex-col">
           {/* Navbar */}
           <div className="navbar lg:block hidden">
@@ -117,12 +122,12 @@ function DetailsPage() {
             >
               <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
                 {/* Logo */}
-                <a
+                <Link
                   href="/"
                   className="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/logo.png" className="w-14" alt="Logo" />
-                </a>
+                </Link>
 
                 {/* Menu Options */}
                 <div className="hidden lg:block">
@@ -139,83 +144,60 @@ function DetailsPage() {
                     </li>
                   </ul>
                 </div>
-                <a
-                  onClick={() => {
-                    router.back();
-                  }}
+                <Link
+                  onClick={() => router.back()}
                   className=" mt-40 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/back-arrow.png" className="w-14" alt="back" />
-                </a>
+                </Link>
               </div>
             </nav>
           </div>
 
+          {/* Left Panel */}
           <div className="left-panel flex w-full items-center">
-            <a
+            <Link
               onClick={() => {
                 localStorage.clear();
                 router.replace("/");
               }}
               className="lg:hidden top-5 right-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
-              <img src="/logout.png" className="w-10 invert h-8" alt="back" />
-            </a>
-            {/* Background Image */}
-            <div className="lg:-z-10 lg:block hidden">
-              <img
-                className="lg:absolute relative w-fit -bottom-[4vh]"
-                src="/edit-profile-bg.png"
-                alt="Background"
-              />
-            </div>
-            <div className="-z-20 block lg:hidden ">
-              <img
-                className="absolute w-fit bottom-0 "
-                src="/edit-profile-bg.png"
-                alt="Background"
-              />
-              <div
-                style={{ color: "black" }}
-                className="lg:-z-10 lg:hidden absolute -left-56 top-48 rotate-90 opacity-60"
-              >
+              <img src="/logout.png" className="w-10 invert h-8" alt="logout" />
+            </Link>
+
+            {/* Service Image */}
+            <div className="service_image">
+              {simage && (
                 <img
-                  className="lg:absolute relative w-1/2 bottom-0"
-                  src="/pandit-back.png"
-                  alt="Background"
+                  src={simage}
+                  className="h-[15vh]"
+                  alt={serviceDetails.name}
                 />
-              </div>
+              )}
             </div>
 
-            {/* Details Form */}
+            {/* Service Form */}
             <div className="login z-0 flex items-center mx-auto flex-col h-screen justify-center">
               <div className="heading w-[40vw] mb-5">
                 <p className="font-bold lg:text-4xl text-2xl font-serif text-gray-800 text-center">
                   Fill Service Details
                 </p>
-                <p className=" text-center lg:text-2xl ">
+                <p className=" text-center lg:text-2xl">
                   {serviceDetails.name}
                 </p>
                 <p className=" text-center lg:text-xl text-xs font-mono ">
                   {serviceDetails.category?.map((cat) => cat.name).join(", ")}
                 </p>
               </div>
-              <div className="service_image">
-                {simage && (
-                  <img
-                    src={simage}
-                    className="h-[15vh]"
-                    alt={serviceDetails.name}
-                  />
-                )}
-              </div>
+
               <div className="form flex w-[25vw] flex-col">
                 <br />
                 <p className="text-gray-700">Dakshina</p>
                 <input
                   type="number"
                   placeholder="Enter amount in ₹"
-                  className="border border-gray-300 rounded-lg p-1 focus:outline-none focus:border-red-500 spin"
+                  className="border border-gray-300 rounded-lg p-1 focus:outline-none focus:border-red-500"
                   value={dakshina}
                   onChange={(e) => setDakshina(e.target.value)}
                 />
@@ -227,7 +209,6 @@ function DetailsPage() {
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
                 />
-
                 <br />
 
                 <button

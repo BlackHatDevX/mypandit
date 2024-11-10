@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 function ProfileServices() {
   const [authToken, setAuthToken] = useState("");
@@ -11,12 +12,16 @@ function ProfileServices() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      router.replace("/"); // Redirect to home if authToken is missing
-      return;
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        router.replace("/"); // Redirect to home if authToken is missing
+        return;
+      }
+      setAuthToken(token || "");
+    } catch (error) {
+      console.error("Error accessing localStorage:", error);
     }
-    setAuthToken(localStorage.getItem("authToken") || "");
   }, []);
 
   useEffect(() => {
@@ -48,29 +53,31 @@ function ProfileServices() {
   }, [authToken]);
 
   useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const imagesBox = await Promise.all(
-          services.map(async (service) => {
-            const imgData = await fetch(
-              `https://test.backend.urbanoinfotech.com/api/v1/get-presigned-url?url=${service.logo_image}`,
-              {
-                headers: {
-                  accept: "application/json",
-                },
-              }
-            );
-            const imageData = await imgData.json();
-            return imageData.results.presigned_url;
-          })
-        );
-        setImages(imagesBox);
-      } catch (error) {
-        console.error("Error fetching services images", error);
-      }
-    };
+    if (services.length) {
+      const fetchImages = async () => {
+        try {
+          const imagesBox = await Promise.all(
+            services.map(async (service) => {
+              const imgData = await fetch(
+                `https://test.backend.urbanoinfotech.com/api/v1/get-presigned-url?url=${service.logo_image}`,
+                {
+                  headers: {
+                    accept: "application/json",
+                  },
+                }
+              );
+              const imageData = await imgData.json();
+              return imageData.results.presigned_url;
+            })
+          );
+          setImages(imagesBox);
+        } catch (error) {
+          console.error("Error fetching services images", error);
+        }
+      };
 
-    if (services.length) fetchImages();
+      fetchImages();
+    }
   }, [services]);
 
   return (
@@ -82,12 +89,12 @@ function ProfileServices() {
           className="lg:absolute block w-[90%] bg-opacity-90 top-3 right-[5%] left-[5%] shadow backdrop-blur-lg backdrop-saturate-150 z-[9999]"
         >
           <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
-            <a
+            <Link
               href="/"
               className="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
               <img src="/logo.png" className="w-14" alt="Logo" />
-            </a>
+            </Link>
             <div className="hidden lg:block">
               <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
                 <li className="flex items-center p-1 text-sm gap-x-2 text-slate-600">
@@ -103,21 +110,21 @@ function ProfileServices() {
                 </li>
               </ul>
             </div>
-            <a
+            <div
               onClick={() => {
                 router.back();
               }}
               className="mt-40 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
               <img src="/back-arrow.png" className="w-14" alt="back" />
-            </a>
+            </div>
           </div>
         </nav>
       </div>
 
       {/* Services Section */}
       <div className="heading w-full mb-5">
-        <a
+        <div
           onClick={() => {
             localStorage.clear();
             router.replace("/");
@@ -125,7 +132,7 @@ function ProfileServices() {
           className="lg:hidden top-5 right-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
         >
           <img src="/logout.png" className="w-10 invert h-8" alt="back" />
-        </a>
+        </div>
         {/* mobile features start  */}
         <div className="-z-20 block lg:hidden ">
           <img
@@ -144,14 +151,14 @@ function ProfileServices() {
             />
           </div>
         </div>
-        <a
+        <div
           onClick={() => {
             router.back();
           }}
           className="lg:hidden top-5 left-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
         >
           <img src="/back-arrow.png" className="w-10" alt="back" />
-        </a>
+        </div>
         {/* mobile features end  */}
 
         <p className="font-bold lg:text-4xl text-2xl font-serif text-gray-800 text-center">
