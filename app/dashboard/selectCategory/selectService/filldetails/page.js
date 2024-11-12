@@ -8,16 +8,16 @@ function DetailsPage() {
   const [duration, setDuration] = useState("");
   const [authToken, setAuthToken] = useState("");
   const [message, setMessage] = useState("");
-  const [serviceDetails, setServiceDetails] = useState(null); // Default as null to prevent undefined errors
-  const [simage, setSimage] = useState(null); // Default to null for image
-  const [categoryId, setCategoryId] = useState(null); // Set to null by default
+  const [serviceDetails, setServiceDetails] = useState(null);
+  const [simage, setSimage] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
     try {
       const token = localStorage.getItem("authToken");
       if (!token) {
-        router.replace("/"); // Redirect to home if authToken is missing
+        router.replace("/");
         return;
       }
 
@@ -32,7 +32,7 @@ function DetailsPage() {
   useEffect(() => {
     const fetchServiceDetails = async () => {
       const serviceId = localStorage.getItem("service_id");
-      if (!serviceId) return; // Exit early if no serviceId
+      if (!serviceId) return;
 
       try {
         const response = await fetch(
@@ -89,7 +89,7 @@ function DetailsPage() {
 
       if (data.statusCode === 201) {
         setMessage(data.message);
-        router.push("/dashboard/saveSuccess"); // Redirect to /success after save
+        router.push("/dashboard/saveSuccess");
       } else {
         setMessage(`Error: ${data.message}`);
       }
@@ -100,7 +100,7 @@ function DetailsPage() {
   };
 
   if (!serviceDetails) {
-    return <p>Loading service details...</p>; // Show a loading message until service details are fetched
+    return <p>Loading service details...</p>;
   }
 
   return (

@@ -15,7 +15,7 @@ function ProfileServices() {
     try {
       const token = localStorage.getItem("authToken");
       if (!token) {
-        router.replace("/"); // Redirect to home if authToken is missing
+        router.replace("/");
         return;
       }
       setAuthToken(token || "");

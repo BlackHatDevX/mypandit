@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -76,7 +75,6 @@ export default function Home() {
         localStorage.setItem("user_id", data.results.data.user_id);
         localStorage.setItem("contact_number", contactNumber);
 
-        // Redirect to /success
         router.push("/dashboard");
       } else {
         setErrorMessage(data.message);
@@ -101,7 +99,7 @@ export default function Home() {
                 href="/"
                 className="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
               >
-                <Image src="/logo.png" className="w-14" alt="Logo" />
+                <img src="/logo.png" className="w-14" alt="Logo" />
               </Link>
               <div className="hidden lg:block"></div>
             </div>
@@ -111,7 +109,7 @@ export default function Home() {
         {/* Left Side - Login Section */}
         <div className="left-panel flex lg:w-1/2 items-center}">
           <div className="lg:-z-10 lg:block hidden">
-            <Image
+            <img
               className="lg:absolute relative w-1/2 bottom-0"
               src="/login-back.png"
               alt="Background"
@@ -121,7 +119,7 @@ export default function Home() {
             style={{ color: "black" }}
             className="lg:-z-10 lg:hidden absolute -left-56 top-48 rotate-90 opacity-60"
           >
-            <Image
+            <img
               className="lg:absolute relative w-1/2 bottom-0"
               src="/pandit-back.png"
               alt="Background"
@@ -132,7 +130,7 @@ export default function Home() {
           <div className="login z-0 flex items-center mx-auto flex-col h-screen justify-center">
             <div className="heading w-72 mb-10">
               <div className="block lg:hidden cursor-pointer mb-20">
-                <Image src="/logo.png" className="w-14 mx-auto" alt="Logo" />
+                <img src="/logo.png" className="w-14 mx-auto" alt="Logo" />
               </div>
               <p className="font-bold text-5xl font-serif text-gray-800">
                 Log In
@@ -146,7 +144,7 @@ export default function Home() {
                 onChange={(e) => setContactNumber(e.target.value)}
                 placeholder="your mobile number"
                 className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-red-500"
-                disabled={otpSent} // Disable the field if OTP is sent
+                disabled={otpSent}
               />
 
               {/* OTP Field */}
@@ -189,14 +187,14 @@ export default function Home() {
             </p>
           </div>
           <div className="panditcontainer z-0">
-            <Image
+            <img
               src="/pandit.png"
               className="bottom-0 lg:absolute lg:w-2/5 lg:right-0"
               alt="Pandit Ji"
             />
           </div>
           <div className="panditcontainer lg:block hidden -z-10">
-            <Image
+            <img
               src="/pandit-back.png"
               className="bottom-0 absolute lg:w-1/2"
               alt="Background"

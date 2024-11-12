@@ -14,12 +14,10 @@ function ProfilePage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Fetch data from local storage when component mounts
-
     try {
       const token = localStorage.getItem("authToken");
       if (!token) {
-        router.replace("/"); // Redirect to home if authToken is missing
+        router.replace("/");
         return;
       }
 
@@ -32,7 +30,6 @@ function ProfilePage() {
   }, []);
 
   useEffect(() => {
-    // Fetch user details when authToken and userId are set
     const fetchUserDetails = async () => {
       try {
         const response = await fetch(
@@ -191,7 +188,7 @@ function ProfilePage() {
               <div className="browseProfileImg">
                 <img src="/pandit-browse.png" className=" h-[15vh]" alt="" />
               </div>
-              <div className="form flex w-[25vw] flex-col">
+              <div className="form flex flex-col">
                 <p className="text-gray-700">First Name</p>
                 <input
                   type="text"
