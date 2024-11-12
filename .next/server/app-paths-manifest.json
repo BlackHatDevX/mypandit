@@ -1,0 +1,12 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/dashboard/editprofile/page": "app/dashboard/editprofile/page.js",
+  "/dashboard/myServices/page": "app/dashboard/myServices/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/saveSuccess/page": "app/dashboard/saveSuccess/page.js",
+  "/dashboard/selectCategory/selectService/filldetails/page": "app/dashboard/selectCategory/selectService/filldetails/page.js",
+  "/dashboard/selectCategory/page": "app/dashboard/selectCategory/page.js",
+  "/dashboard/selectCategory/selectService/page": "app/dashboard/selectCategory/selectService/page.js",
+  "/page": "app/page.js"
+}

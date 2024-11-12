@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 
 function DetailsPage() {
   const [dakshina, setDakshina] = useState("");
@@ -166,23 +165,22 @@ function DetailsPage() {
               <img src="/logout.png" className="w-10 invert h-8" alt="logout" />
             </div>
 
-            {/* Service Image */}
-            <div className="service_image">
-              {simage && (
-                <img
-                  src={simage}
-                  className="h-[15vh]"
-                  alt={serviceDetails.name}
-                />
-              )}
-            </div>
-
             {/* Service Form */}
             <div className="login z-0 flex items-center mx-auto flex-col h-screen justify-center">
               <div className="heading w-[40vw] mb-5">
                 <p className="font-bold lg:text-4xl text-2xl font-serif text-gray-800 text-center">
                   Fill Service Details
                 </p>
+                {/* Service Image */}
+                <div className="service_image">
+                  {simage && (
+                    <img
+                      src={simage}
+                      className="h-[15vh] rounded-md mx-auto mt-4 mb-2"
+                      alt={serviceDetails.name}
+                    />
+                  )}
+                </div>
                 <p className=" text-center lg:text-2xl">
                   {serviceDetails.name}
                 </p>
@@ -191,21 +189,22 @@ function DetailsPage() {
                 </p>
               </div>
 
-              <div className="form flex w-[25vw] flex-col">
+              <div className="form flex flex-col">
                 <br />
                 <p className="text-gray-700">Dakshina</p>
                 <input
                   type="number"
                   placeholder="Enter amount in ₹"
-                  className="border border-gray-300 rounded-lg p-1 focus:outline-none focus:border-red-500"
+                  className="border border-gray-300 rounded-lg p-2 w-full sm:w-3/4 lg:w-[25vw] focus:outline-none focus:border-red-500"
                   value={dakshina}
                   onChange={(e) => setDakshina(e.target.value)}
                 />
+
                 <p className="text-gray-700">Duration</p>
                 <input
                   type="number"
                   placeholder="Enter duration in Hours"
-                  className="border border-gray-300 rounded-lg p-1 focus:outline-none focus:border-red-500"
+                  className="border border-gray-300 rounded-lg p-2 w-full sm:w-3/4 lg:w-[25vw] focus:outline-none focus:border-red-500"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
                 />
