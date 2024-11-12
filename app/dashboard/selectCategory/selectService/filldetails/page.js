@@ -107,12 +107,12 @@ function DetailsPage() {
   return (
     <div>
       <div className="main">
-        <Link
+        <div
           onClick={() => router.back()}
           className="lg:hidden top-5 left-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
         >
           <img src="/back-arrow.png" className="w-10" alt="back" />
-        </Link>
+        </div>
         <div className="flex lg:flex-row flex-col">
           {/* Navbar */}
           <div className="navbar lg:block hidden">
@@ -122,12 +122,12 @@ function DetailsPage() {
             >
               <div className="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
                 {/* Logo */}
-                <Link
+                <div
                   href="/"
                   className="mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/logo.png" className="w-14" alt="Logo" />
-                </Link>
+                </div>
 
                 {/* Menu Options */}
                 <div className="hidden lg:block">
@@ -144,19 +144,19 @@ function DetailsPage() {
                     </li>
                   </ul>
                 </div>
-                <Link
+                <div
                   onClick={() => router.back()}
                   className=" mt-40 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
                 >
                   <img src="/back-arrow.png" className="w-14" alt="back" />
-                </Link>
+                </div>
               </div>
             </nav>
           </div>
 
           {/* Left Panel */}
           <div className="left-panel flex w-full items-center">
-            <Link
+            <div
               onClick={() => {
                 localStorage.clear();
                 router.replace("/");
@@ -164,7 +164,7 @@ function DetailsPage() {
               className="lg:hidden top-5 right-5 absolute mr-4 block cursor-pointer py-1.5 text-base text-slate-800 font-semibold"
             >
               <img src="/logout.png" className="w-10 invert h-8" alt="logout" />
-            </Link>
+            </div>
 
             {/* Service Image */}
             <div className="service_image">
